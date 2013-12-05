@@ -1,0 +1,8 @@
+{
+  "host": "http://api.binteo.com:9000",
+  "realtime_url": "http://x.binteo.com/binteo/register?password=r0ckst4r%23&",
+  "intercom": {
+    "API_KEY": "f04fd3a09c92499968b63ea37e83ab124373d96b",
+    "APP_ID": "jrg8kp2f"
+  }
+}

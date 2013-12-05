@@ -1,0 +1,156 @@
+extends layout
+
+block content
+  .navbar.navbar-inverse(role='navigation')
+    .navbar-inner
+      button.navbar-toggle(type='button',data-toggle='collapse',data-target='.navbar-responsive-collapse')
+        span.sr-only Toggle navigation
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      a.brand.navbar-brand(href='#',style='color: #fff;') VMO
+      .navbar-text AMAT Centura II System 5202
+    .collapse.navbar-collapse.navbar-responsive-collapse
+      ul.nav.navbar-nav.navbar-right.navbar-inverse
+       li
+         a#ddm1(style='color: #fff;',data-toggle='dropdown',data-target='#',href='#')
+           span.glyphicon.glyphicon-download.white  
+         ul.dropdown-menu(role='menu',aria-labelledby='ddm1')
+           li(role='presentation')
+             a(role='menuitem',tabindex='-1',href='#') Upload
+           li(role='presentation')
+             a(role='menuitem',tabindex='-1',href='#') Download
+           li(role='presentation')
+             a(role='menuitem',tabindex='-1',href='#') View
+       li
+         a#ddm2(style='color: #fff;',href='javascript:history.go(0)')
+           span.glyphicon.glyphicon-refresh.white  
+       li
+         a#ddm3(style='color: #fff;',data-toggle='dropdown',data-target='#',href='#')
+           span.glyphicon.glyphicon-list.white  
+         ul.dropdown-menu(role='menu',aria-labelledby='ddm3')
+           li(role='presentation')
+             a(role='menuitem',tabindex='-1',href='#') Login
+           li.divider(role='presentation')
+           li(role='presentation')
+             a(role='menuitem',tabindex='-1',href='#') Monitor
+       li
+         img(style='margin-top: 15px;',src='img/abinition.png',height='20px',alt='Abinition',href='#')
+
+  .marquee(ng-controller='Stream6Controller',style='background-color:red; color:white;')
+     {{ Stream6Message }}
+
+  .container-fluid
+    ul#tabs.nav.nav-tabs(data-tabs='tabs')
+      li.active
+        a(href='#tab_console',data-toggle='tab') Console
+      li
+        a(href='#tab_operator',data-toggle='tab') Operator
+      li
+        a(href='#tab_engineer',data-toggle='tab') Engineer
+      li
+        a(href='#tab_gem',data-toggle='tab') GEM
+
+    #vmo-tabs.tab-content
+      #tab_console.tab-pane.active
+        .container-fluid
+          .row-fluid
+            .col-sm-1
+              .container-fluid(ng-controller='ConsoleController')
+                //canvas#videoCanvas(width='320',height='240')
+                //canvas#videoCanvas(width='640',height='480')
+                canvas#videoCanvas
+                 p
+                   | Please use a browser that supports the Canvas Element
+            .col-sm-offset-7.col-sm-4
+              .container-fluid
+                #accordion.panel-group
+                  .panel.panel-default
+                    .panel-heading
+                      h4.panel-title
+                        a(data-toggle='collapse',data-parent='#accordion',href='#collapse1') Sensors
+                    #collapse1.panel-collapse.collapse.in
+                      .panel-body
+                        | List of sensors and their values.
+                        ul
+                          li Those extracted via VMO interface
+                          li Those extracted via USB sensors physically monitoring the equipment                          
+                  .panel.panel-default
+                    .panel-heading
+                      h4.panel-title
+                        a(data-toggle='collapse',data-parent='#accordion',href='#collapse3') Recipes
+                    #collapse3.panel-collapse.collapse
+                      .panel-body
+                        | List of Tool Recipes and the current running recipes                        
+                  .panel.panel-default
+                    .panel-heading
+                      h4.panel-title
+                        a(data-toggle='collapse',data-parent='#accordion',href='#collapse4') WIP
+                    #collapse4.panel-collapse.collapse
+                      .panel-body
+                        | MID tags from the MES, assigned to the tool on the running recipe(s)
+      #tab_operator.tab-pane
+        p Operator functions
+      #tab_engineer.tab-pane
+        p Engineering functions
+      #tab_gem.tab-pane
+        | The GEM interface to the equipment
+        h5 Categories
+        .container(ng-controller='GemController')
+          p {{ GemMessage }}
+        ul 
+         li Tool status
+         li Tool Variables
+           ul
+             li Conatants
+             li Sensor values
+         li Alarms
+         li Event Data
+         li Recipe Management   
+
+  .container(ng-view)
+  
+block scripts
+  script(src='js/lib/angular/angular.min.js')
+  script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular-route.js')
+  script(src='//code.jquery.com/jquery.js')
+  script(src='//code.jquery.com/ui/1.10.3/jquery-ui.js')
+  script(src='js/jquery.marquee.min.js')
+  script(src='js/bootstrap.min.js')
+  //script(src='http://platform.twitter.com/widgets.js')
+  script(src='js/app.js')
+  script(src='js/controllers.js')
+  script(src='js/jsmpg.js',type='text/javascript')
+
+  //script(src='js/services.js')
+  //script(src='js/filters.js')
+  //script(src='js/directives.js')
+ 
+  script(type='text/javascript').
+    jQuery(document).ready(function ($) {
+      $('.marquee').marquee({  
+        //speed in milliseconds of the marquee  
+        speed: 15000,  
+        //gap in pixels between the tickers  
+        gap: 50,  
+        //gap in pixels between the tickers  
+        delayBeforeStart: 0,  
+        //'left' or 'right'  
+        direction: 'left'  
+      });  
+      // Show loading notice
+      var canvas = document.getElementById('videoCanvas');
+      var ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#444';
+      ctx.fillText('Loading...', canvas.width/2-30, canvas.height/3);
+      // Setup the WebSocket connection and start the player
+      var isMobile = navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/);
+      var client ;
+      if ( isMobile ) 
+        client = new WebSocket( 'ws://192.168.11.103:8084/' );
+        //client = new WebSocket( 'ws://108.241.35.53:8084/' );
+      else
+        client = new WebSocket( 'ws://192.168.11.103:8083/' );
+        //client = new WebSocket( 'ws://108.241.35.53:8083/' );
+      var player = new jsmpeg(client, {canvas:canvas});
+    });
