@@ -6,14 +6,23 @@ process.on('message', function(m) {
   console.log(m);
 });
 
+var dt;
+var min  ;
+var sec ;
 var busy = 0 ;
-function doOCR() {
-  var dt = new Date();
-  var min = dt.getMinutes() ;
+var fileSpec ;
+
+function getFileSpec() {
+  dt = new Date();
+  min = dt.getMinutes() ;
   if ( min < 10 ) min = "0" + min ;
-  var sec = dt.getSeconds() ;
+  sec = dt.getSeconds() ;
   if ( sec < 10 ) sec = "0" + sec ;
-  var fileSpec = __dirname + "/data/console_00" + min + sec +".jpg" ;
+  return  __dirname + "/data/console_00" + min + sec +".jpg" 
+} ;
+
+function doOCR() {
+
   fs.exists ( fileSpec, function () {
     if ( !busy ) {
       busy = 1 ;
@@ -23,8 +32,10 @@ function doOCR() {
 	    else
           process.send(text);
 		busy = 0 ;
+        fileSpec = getFileSpec() ;
       }) ;
     }
   });
 }	
-setInterval ( doOCR, 1000 ) ;
+fileSpec = getFileSpec() ;
+setInterval ( doOCR, 2000 ) ;

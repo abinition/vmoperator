@@ -5,7 +5,7 @@ process.env.NODE_ENV = process.env.NODE_ENV || "development";
 
 var config = require('./config/'+process.env.NODE_ENV+'.json') ;
 config.port      = process.env.NODE_PORT || 8001;
-config.node      = process.env.NODE_NODE || "0.0.0.0"
+config.host      = process.env.NODE_HOST || "192.168.11.103";
 config.protocol  = process.env.NODE_PROT || "http" ;
 console.log ( config ) ;
 
@@ -13,8 +13,22 @@ console.log ( config ) ;
 var express   = require("express");
 var fs = require ( "fs" ) ;
 
-
 var app = module.exports = express();
+var server = require ( "http" ).createServer(app) ;
+var io = require ( "socket.io" ).listen(server);
+io.set('log level', 1);
+/*
+      'disconnect': 0
+    , 'connect': 1
+    , 'heartbeat': 2
+    , 'message': 3
+    , 'json': 4
+    , 'event': 5
+    , 'ack': 6
+    , 'error': 7
+    , 'noop': 8
+ */
+ 
 var options = {} ;
 /*
 if ( config.protocol == "https" ) {
@@ -145,13 +159,102 @@ templatizer( __dirname + '/views/templates',
 console.log("forking");
 
 var child = handlers.cp.fork('./ocr_worker');
+var screen ;
 
-console.log("on message");
-child.on('message', function(m) {
+var name = '' ;
+var loadlock = '' ;
+var id = '' ;
+var helium = '' ;
+var voltage = '' ;
+var temp = '' ;
+var lotid = '' ;
+var stage = '' ;
+var recipe = '' ;
+var step = '' ;
+var time = '' ;
+var chamber = '' ;
+var rf = '' ;
+
+child.on('message', function(text) {
+  console.log ( text ) ;
   // Receive results from child process
-  console.log(m);
+  var page = text.split( "\n" );
+  var token = [];
+  var sensorOffset = 0 ;
+  var recipeOffset = 0 ;
+  var sequenceOffset = 0 ;
+  var wipOffset = 0 ;
+  for( var i = 0; i < page.length; i++ ) {
+	var tokens = page[i].split(" "); 
+	if( !tokens ) break ;
+	var n=tokens.length;
+	for ( var j=0;j<n;j++ )                   
+	  if ( tokens[j] != '' ) {
+	    token.push( tokens[ j ] ); 
+      }
+  }
+  for ( var i=0; i< token.length; i++ )
+	if ( token[i] == "Sensors" )
+	  sensorOffset = i ;
+	else if ( token[i] == "Sequence" )
+	  sequenceOffset = i ;		
+	else if ( token[i] == "Recipe" )
+	  recipeOffset = i ;	
+	else if ( token[i] == "WIP" )
+     wipOffset = i ;
+	 
+  if ( recipeOffset > 0 ) {
+    name =  token[recipeOffset+1] ;
+    loadlock = token[recipeOffset+2] == "LLA" ? "A" : "B" ;
+  }
+
+  if ( sequenceOffset > 0 ) {
+    id =  token[sequenceOffset+2] ;
+    helium =  token[sequenceOffset+5] + ' ' + token[sequenceOffset+6] ;
+    voltage = token[sequenceOffset+10] + ' ' + token[sequenceOffset+11] ;
+    temp =  token[sequenceOffset+15] + ' ' + token[sequenceOffset+16] ;
+  }
+  
+  if ( wipOffset > 0 ) {
+    lotid =token[wipOffset+2] ;
+    stage = token[wipOffset+4] ;
+    recipe = token[wipOffset+6] ;
+  }
+
+  if ( sensorOffset > 0 ) {
+	step =  token[sensorOffset+4] ;
+    time = token[sensorOffset+8] + ' ' + token[sensorOffset+9] ;
+    chamber =  token[sensorOffset+12] + ' ' + token[sensorOffset+13] ;
+    rf =  token[sensorOffset+15] + ' ' + token[sensorOffset+16] ;
+  }
+
+  screen = {
+	  "recipe" : {
+		 "name" : name,
+		 "loadlock" : loadlock
+	  },
+	  "sequence" : {
+		 "id" : id,
+		 "helium" : helium,
+		 "voltage" : voltage,
+		 "temp" : temp
+	  },
+	  "wip" : {
+		 "lotid": lotid,
+		 "stage": stage,
+		 "recipe": recipe
+	  },
+	  "sensors" : {
+		 "step" : step,
+		 "time": time,
+		 "chamber" : chamber,
+		 "rf" : rf
+	  }
+  } ;
+  io.sockets.emit('message', screen );
 });
-child.send("Start");
+
+child.send("Start OCR worker process...");
 console.log("...done");
 
 // Routes
@@ -159,23 +262,28 @@ console.log("...done");
 app.get('/', routes.index);
 app.get('/partials/:name', routes.partials);
 
-app.get("/jsmpeg", function (req, rsp) {
-
-    rsp.render("jsmpeg", {
-      layout: "layout"
-    });
-});
-
 // JSON API
-
 app.get('/api/gem', api.gem);
-app.get('/api/post/:id', api.post);
-app.post('/api/post', api.addPost);
-app.put('/api/post/:id', api.editPost);
-app.delete('/api/post/:id', api.deletePost);
-
-// redirect all others to the index (HTML5 history)
 app.get('*', routes.index);
+
+server.broadcast = function(data, opts) {
+  //console.log("Broadcasting");
+  //for( var i in this.clients ) {
+  //  console.log ( this.clients[i] ) ;
+  //	this.clients[i].emit(data, opts);
+  //}
+};
+
+io.sockets.on('connection', function (socket) {
+  socket.emit('message', screen );
+  //socket.on('message', function (data) {
+  //  console.log('received message');
+  //  console.log(data);
+  //});
+  socket.on('disconnect', function () {
+    io.sockets.emit('user disconnected');
+  });
+});
 
 
 /**
@@ -211,11 +319,10 @@ app.delete("/api/profile/:account_id/follow", m.auth, routes.api.profile.unfollo
 app.get("/api/profile/:account_id/topics",    m.auth, routes.api.profile.topics);
 */
 
-
 // --------------------
 // listen
 // --------------------
 
-app.listen(config.port,'192.168.11.103', function(){
-  console.log("Express server listening on port %d in %s mode", config.port, app.settings.env);
+server.listen(config.port, config.host, function(){
+  console.log("Express server listening on %s:%d in %s mode", config.host, config.port, app.settings.env);
 });

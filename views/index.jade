@@ -52,18 +52,18 @@ block content
         a(href='#tab_gem',data-toggle='tab') GEM
 
     #vmo-tabs.tab-content
-      #tab_console.tab-pane.active
+      #tab_console.tab-pane.active(ng-controller='ConsoleController')
         .container-fluid
           .row-fluid
-            .col-sm-1
-              .container-fluid(ng-controller='ConsoleController')
+            .col-sm-8.canvasWidth
+              .container-fluid
                 //canvas#videoCanvas(width='320',height='240')
                 //canvas#videoCanvas(width='640',height='480')
-                canvas#videoCanvas
+                canvas#videoCanvas(style='border-style:solid; border-width:1px;')
                  p
                    | Please use a browser that supports the Canvas Element
-            .col-sm-offset-7.col-sm-4
-              .container-fluid
+            .col-sm-4
+              .container
                 #accordion.panel-group
                   .panel.panel-default
                     .panel-heading
@@ -71,24 +71,34 @@ block content
                         a(data-toggle='collapse',data-parent='#accordion',href='#collapse1') Sensors
                     #collapse1.panel-collapse.collapse.in
                       .panel-body
-                        | List of sensors and their values.
                         ul
-                          li Those extracted via VMO interface
-                          li Those extracted via USB sensors physically monitoring the equipment                          
+                          li Current Step Number {{ step }}
+                          li Maximum Step Time {{ time }}                          
+                          li Chamber Pressure {{ chamber }} 
+                          li RF {{ rf }} 
                   .panel.panel-default
                     .panel-heading
                       h4.panel-title
-                        a(data-toggle='collapse',data-parent='#accordion',href='#collapse3') Recipes
+                        a(data-toggle='collapse',data-parent='#accordion',href='#collapse3') Sequence
                     #collapse3.panel-collapse.collapse
                       .panel-body
-                        | List of Tool Recipes and the current running recipes                        
+                        ul
+                          li Requested Recipe {{ name }}
+                          li LoadLock {{ loadlock }}
+                          li PPID {{ id }}
+                          li Helium Pressure {{ helium }}                          
+                          li ESC Chunking Voltage {{ voltage }} 
+                          li Expected Cathode Temp {{ temp }}                        
                   .panel.panel-default
                     .panel-heading
                       h4.panel-title
                         a(data-toggle='collapse',data-parent='#accordion',href='#collapse4') WIP
                     #collapse4.panel-collapse.collapse
                       .panel-body
-                        | MID tags from the MES, assigned to the tool on the running recipe(s)
+                        ul
+                          li Lotid {{ lotid }}
+                          li Stage {{ stage }}                          
+                          li Recipe {{ recipe }}  
       #tab_operator.tab-pane
         p Operator functions
       #tab_engineer.tab-pane
@@ -102,30 +112,36 @@ block content
          li Tool status
          li Tool Variables
            ul
-             li Conatants
+             li Constants
              li Sensor values
          li Alarms
          li Event Data
          li Recipe Management   
 
-  .container(ng-view)
-  
+  //.container
+  //  .ng-view
+
 block scripts
-  script(src='js/lib/angular/angular.min.js')
-  script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular-route.js')
+  script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular.js')
+  script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular-route.js')
   script(src='//code.jquery.com/jquery.js')
   script(src='//code.jquery.com/ui/1.10.3/jquery-ui.js')
   script(src='js/jquery.marquee.min.js')
   script(src='js/bootstrap.min.js')
-  //script(src='http://platform.twitter.com/widgets.js')
   script(src='js/app.js')
-  script(src='js/controllers.js')
   script(src='js/jsmpg.js',type='text/javascript')
-
-  //script(src='js/services.js')
+  script(src='js/controllers.js')
+  script(src='js/services.js')
   //script(src='js/filters.js')
   //script(src='js/directives.js')
- 
+  script(src='/socket.io/socket.io.js',type='text/javascript')
+  //script(type='text/javascript').
+  //  //var socket = io.connect('http://108.241.35.53');
+  //  var socket = io.connect('http://192.168.11.103');
+  //  socket.on('message', function (data) {
+  //    //console.log(data);
+  //    socket.emit('message', { my: 'data' });
+  //  });
   script(type='text/javascript').
     jQuery(document).ready(function ($) {
       $('.marquee').marquee({  

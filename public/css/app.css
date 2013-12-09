@@ -1,0 +1,13 @@
+/* app css stylesheet */
+body { background-color: #eee; }
+.navbar { margin-bottom: 0 !important; }
+.marquee {  
+  width: 100%;
+  overflow: hidden;  
+}  
+.canvasWidth{width:640px!important}
+.btn-default { background-color: #000; }
+.btn-default:hover { background-color: #aaa; }
+.white, .white a {
+  color: #eee;
+}
