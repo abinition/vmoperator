@@ -1,0 +1,35 @@
+/* app css stylesheet */
+body { background-color: #ddd; font-size: 14pt; font-family: 'Helvitica'; font-weight: bold; color:gray;}
+.white, .white a {
+  color: #eee;
+}
+
+/* Turn on opacity = 1 to view */
+
+input[type="text"]
+{
+    color: #999999;
+	background-color: #fff;
+    opacity: 1;
+	font-size: 14pt;
+	font-family: 'Helvitica';
+	font-weight: bold;
+}
+
+input:-moz-placeholder {
+    color: #999999;
+	background-color: #fff;
+    opacity: 1;
+	font-size: 14pt;
+	font-family: 'Helvitica';
+	font-weight: bold;
+}
+
+input::-moz-placeholder {
+    color: #999999;
+	background-color: #fff;	
+    opacity: 1;
+	font-size: 14pt;
+	font-family: 'Helvitica';
+	font-weight: bold;
+}

@@ -2,7 +2,7 @@ var nodecr = require('nodecr') ;
 var fs = require('fs') ;
 	
 process.on('message', function(m) {
-  // Do work  (in this case just up-case the string
+  // Do work 
   console.log(m);
 });
 
@@ -33,7 +33,7 @@ function doOCR() {
           process.send(text);
 		busy = 0 ;
         fileSpec = getFileSpec() ;
-      }) ;
+      }, "eng", 6 ) ;
     }
   });
 }	

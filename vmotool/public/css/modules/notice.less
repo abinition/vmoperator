@@ -1,0 +1,23 @@
+.notice {
+  background: #ccc;
+  padding: 10px;
+  opacity: 1;
+  .transition(all .35s ease);
+  &.out {
+    opacity: 0;
+    .translate(0, 20px);
+  }
+}
+.notice-success {
+  background: @state-success-bg;
+  color: @state-success-text;
+  border: @state-success-border solid 1px;
+}
+.notice-error {
+  background: @state-danger-bg;
+  color: @state-danger-text;
+  border: @state-danger-border solid 1px;
+}
+.notice-title {
+  font-weight: bold;
+}

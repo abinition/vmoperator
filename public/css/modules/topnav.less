@@ -1,0 +1,91 @@
+.topnav {
+  .clearfix();
+  background: @gray-darker;
+  color: @gray-light;
+  position: relative;
+  .glyphicon {
+    font-size: 19px;
+  }
+}
+.topnav-brand {
+  display: inline-block;
+  height: 50px;
+  line-height: 50px;
+  width: 59px;
+  text-align: center;
+  background: @gray-darker;
+  &:hover {
+    background: darken(@gray-darker, 5%);
+  }
+}
+.topnav-page {
+  font-size: 18px;
+}
+.topnav-title {
+  position: absolute;
+  left: 60px;
+  z-index: 0;
+  white-space: nowrap;
+}
+.topnav-nav {
+  position: relative;
+  z-index: 4;
+  &:before {
+    position: absolute;
+    top: 0;
+    left: -10px;
+    content: "";
+    background: @gray-darker;
+    .box-shadow(@gray-darker -5px -5px 5px);
+    width: 10px;
+    height: 50px;
+  }
+}
+.topnav-search-form {
+  .box-sizing(border-box);
+  .clearfix();
+  position: relative;
+  margin-left: 60px;
+  input {
+    border: none;
+    .box-shadow(none);
+    height: 50px;
+    padding: 10px 60px 10px 10px;
+    font-size: 18px;
+    border: #CCC solid 1px;
+    border-left: none;
+    border-right: none;
+    &:focus {
+      .box-shadow(none);
+      outline: none;
+    }
+  }
+  button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 59px;
+    height: 50px;
+  }
+}
+.topnav-search-spinner {
+  position: absolute;
+  right: 80px;
+  top: 25px;
+}
+.topnav-menu {
+  height: 50px;
+  .menu-btn {
+    height: 50px;
+    background: @gray-darker;
+    color: #fff;
+    &:hover {
+      background: darken(@gray-darker, 5%);
+    }
+  }
+  .menu-dots {
+    font-size: 30px;
+    left: 8px;
+    top: -3px;
+  }
+}

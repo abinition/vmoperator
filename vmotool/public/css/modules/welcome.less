@@ -1,0 +1,33 @@
+.welcome {
+  padding: 10px;
+  background: fade(#fff, 60%);
+  margin-top: 10px;
+  > h1 {
+    margin-top: 0;
+  }
+}
+.welcome-bg {
+  min-height: 100%;
+  min-width: 1300px;
+
+  width: 100%;
+  height: auto;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  z-index: -1;
+  @media (max-width: @screen-medium) {
+    left: -200px;
+  }
+
+  @media (max-width: @screen-small) {
+    min-width: 1050px;
+    left: -190px;
+  }
+
+  @media (max-width: @screen-tiny) {
+    left: -150px;
+  }
+}

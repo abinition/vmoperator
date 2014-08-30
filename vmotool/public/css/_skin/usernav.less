@@ -1,0 +1,24 @@
+.usernav {
+  .btn-group {
+    background: darken(@body-bg, 5%);
+  }
+  .btn {
+    background: none;
+    border: none;
+    color: darken(#fff, 50%);
+    &:hover {
+      background: none;
+      border: none;
+      color: darken(#fff, 30%);
+    }
+    &.active {
+      color: darken(#fff, 0%);
+      &:after {
+        display: none;
+      }
+    }
+    .glyphicon {
+      line-height: 30px;
+    }
+  }
+}

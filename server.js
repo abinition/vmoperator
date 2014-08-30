@@ -59,6 +59,7 @@ var handlers = {
 var 	 routes = require('./routes'),
 		 api = require('./routes/api');
 		 
+		 //console.log ( module ) ;
 //routes.marketing	= require('./routes/marketing');
 //routes.api		= require('./routes/api').api;
 
@@ -121,7 +122,7 @@ app.configure( function () {
 
   app.use(express.urlencoded());
 
-  //app.use(express.bodyParser());
+  app.use(express.bodyParser());
   //express.bodyParser.parse['multipart/form-data'] = m.multipart;  app.use(express.json());
 
   app.use(express.cookieParser());
@@ -159,98 +160,196 @@ templatizer( __dirname + '/views/templates',
 console.log("forking");
 
 var child = handlers.cp.fork('./ocr_worker');
-var screen ;
 
-var name = '' ;
-var loadlock = '' ;
-var id = '' ;
-var helium = '' ;
-var voltage = '' ;
-var temp = '' ;
-var lotid = '' ;
-var stage = '' ;
-var recipe = '' ;
-var step = '' ;
-var time = '' ;
-var chamber = '' ;
-var rf = '' ;
+var step = '1' ;
+var firstStep = '2' ;
+var lastStep = '5' ;
+var lotid = 'BALZ99.0' ;
+var stage = "Headway" ;
+var recipe = "Sputtering" ;
+
+var screen = {
+	  "control" : {
+		 "firstStep" : firstStep,
+		 "lastStep" : lastStep,
+		 "step": step
+	  },
+	  "sequence" : [ 
+		 { 
+		   "process" : "p1",
+		   "periods" : "1",
+		   "set" : "2",
+		   "description" : ""
+		 },
+		 { 
+		   "process" : "p2",
+		   "periods" : "1",
+		   "set" : "2",
+		   "description" : ""
+		 },
+		 { 
+		   "process" : "p3",
+		   "periods" : "1",
+		   "set" : "2",
+		   "description" : ""
+		 },
+		 { 
+		   "process" : "p4",
+		   "periods" : "1",
+		   "set" : "2",
+		   "description" : ""
+		 },
+		 { 
+		   "process" : "p5",
+		   "periods" : "1",
+		   "set" : "2",
+		   "description" : ""
+		 },
+		 { 
+		   "process" : "p6",
+		   "periods" : "1",
+		   "set" : "2",
+		   "description" : ""
+		 },
+		 { 
+		   "process" : "p7",
+		   "periods" : "1",
+		   "set" : "2",
+		   "description" : ""
+		 },
+		 { 
+		   "process" : "p8",
+		   "periods" : "1",
+		   "set" : "2",
+		   "description" : ""
+		 },
+		 { 
+		   "process" : "p9",
+		   "periods" : "1",
+		   "set" : "2",
+		   "description" : ""
+		 },
+		 { 
+		   "process" : "p10",
+		   "periods" : "1",
+		   "set" : "2",
+		   "description" : ""
+		 }
+	  ],
+	  "wip" : {
+		 "lotid": lotid,
+		 "stage": stage,
+		 "recipe": recipe
+	  }
+  } ;
+
 
 child.on('message', function(text) {
-  console.log ( text ) ;
+  console.log ( "Incoming OCR data" ) ;
+  console.log( text ) ;
   // Receive results from child process
   var page = text.split( "\n" );
   var token = [];
-  var sensorOffset = 0 ;
-  var recipeOffset = 0 ;
-  var sequenceOffset = 0 ;
-  var wipOffset = 0 ;
+  var position = [];
+  var sequence = 0; 
+  var isPeriods = 1 ;
+  var isSet = 0 ;
+  var number ;
+  var processes = [] ;
+  var descriptions = [];
+  processes.push ( "Etching" );
+  processes.push ( "Sputtering" ) ;
+  processes.push ( "No Process" ) ;
+  descriptions.push ( "Etch 60 sec" ) ;
+  descriptions.push ( "Gap Deposition, Cath 3" ) ;
+  descriptions.push ( "400W S/E, 3 min" ) ;
+  descriptions.push ( "Sputter etch, 60a nife" ) ;
+  descriptions.push ( "<-200A Gap, 1kW, Cath 3" ) ;
+  var process = [];
+  var description = [];
   for( var i = 0; i < page.length; i++ ) {
 	var tokens = page[i].split(" "); 
 	if( !tokens ) break ;
 	var n=tokens.length;
 	for ( var j=0;j<n;j++ )                   
 	  if ( tokens[j] != '' ) {
-	    token.push( tokens[ j ] ); 
+	    token.push( tokens[ j ] );
+        position.push ( j ) ;		
       }
   }
-  for ( var i=0; i< token.length; i++ )
-	if ( token[i] == "Sensors" )
-	  sensorOffset = i ;
-	else if ( token[i] == "Sequence" )
-	  sequenceOffset = i ;		
-	else if ( token[i] == "Recipe" )
-	  recipeOffset = i ;	
-	else if ( token[i] == "WIP" )
-     wipOffset = i ;
-	 
-  if ( recipeOffset > 0 ) {
-    name =  token[recipeOffset+1] ;
-    loadlock = token[recipeOffset+2] == "LLA" ? "A" : "B" ;
-  }
-
-  if ( sequenceOffset > 0 ) {
-    id =  token[sequenceOffset+2] ;
-    helium =  token[sequenceOffset+5] + ' ' + token[sequenceOffset+6] ;
-    voltage = token[sequenceOffset+10] + ' ' + token[sequenceOffset+11] ;
-    temp =  token[sequenceOffset+15] + ' ' + token[sequenceOffset+16] ;
-  }
-  
-  if ( wipOffset > 0 ) {
-    lotid =token[wipOffset+2] ;
-    stage = token[wipOffset+4] ;
-    recipe = token[wipOffset+6] ;
-  }
-
-  if ( sensorOffset > 0 ) {
-	step =  token[sensorOffset+4] ;
-    time = token[sensorOffset+8] + ' ' + token[sensorOffset+9] ;
-    chamber =  token[sensorOffset+12] + ' ' + token[sensorOffset+13] ;
-    rf =  token[sensorOffset+15] + ' ' + token[sensorOffset+16] ;
-  }
-
-  screen = {
-	  "recipe" : {
-		 "name" : name,
-		 "loadlock" : loadlock
-	  },
-	  "sequence" : {
-		 "id" : id,
-		 "helium" : helium,
-		 "voltage" : voltage,
-		 "temp" : temp
-	  },
-	  "wip" : {
-		 "lotid": lotid,
-		 "stage": stage,
-		 "recipe": recipe
-	  },
-	  "sensors" : {
-		 "step" : step,
-		 "time": time,
-		 "chamber" : chamber,
-		 "rf" : rf
+  for ( var i=0; i< token.length; i++ ) {
+    //console.log( i + ":" + token[i] + "[" + position[i] + "]" ) ;;			
+	if ( token[i] == "First" && token[i+1] == "Step" )
+	  firstStep = token[i+2] ;
+	else if ( token[i] == "Last" && token[i+1] == "Step" )
+	  lastStep = token[i+2] ;
+	else if ( token[i] == "Step" && token[i+1] == "No" )
+	  step = token[i+2] ;  
+    else {
+	  if (!isNaN(parseInt(token[i]) ) ) {
+	    number = parseInt(token[i]) ;
+	    if ( position[i] == 0 ) {
+          if ( number > 0 && number < 10 ) {
+		    sequence = number ;
+		    isPeriods = 1 ;
+			isSet = 0 ;
+		    screen.sequence[sequence-1].process = "" ; 
+		    screen.sequence[sequence-1].description = "" ; 
+		  }
+		}
+	    else if ( sequence > 0 && sequence < 10 ) {
+	      if  ( isPeriods ) {
+		    isPeriods = 0 ;
+			isSet = 1 ;
+		    screen.sequence[sequence-1].periods = number ; 
+		  }
+		  else if ( isSet ) {
+		    screen.sequence[sequence-1].set = number ;
+            isSet = 0 ;			
+		  } 
+		  else {
+		    screen.sequence[sequence-1].description  += token[i] + " " ; 	  
+		  }
+	    }
 	  }
-  } ;
+	  else {
+	    if ( sequence > 0 && sequence < 10 ) {
+  	      if ( isPeriods ) {
+		    screen.sequence[sequence-1].process += token[i] + " " ; 	
+	  	  }
+		  else {
+		    screen.sequence[sequence-1].description  += token[i] + " "  ; 
+          }
+		}
+	  }
+    }	
+  }
+  //console.log(description.length);
+  /*
+  for ( var i=0; i< 10; i++ ) {
+    for ( var k=0; k<descriptions.length; k++ ) {
+	  if ( description[i] == descriptions[k] ) {
+	    screen.sequence[sequence-1].description = description[i] ;
+		break ;
+	  }
+	}
+    for ( var k=0; k<processes.length; k++ ) {
+	  if ( process[i] == processes[k] ) {
+	    screen.sequence[sequence-1].process = process[i] ;
+		break ;
+	  }
+	}
+  }
+  */
+   
+  screen.control.firstStep = firstStep ;
+  screen.control.lastStep = lastStep ;
+  screen.control.step = step ;
+  screen.wip.lotid = lotid ;
+  screen.wip.stage = stage ;
+  screen.wip.recipe = recipe ;
+  
+
   io.sockets.emit('message', screen );
 });
 
@@ -263,8 +362,13 @@ app.get('/', routes.index);
 app.get('/partials/:name', routes.partials);
 
 // JSON API
+app.post('/api/step', api.step);
 app.get('/api/gem', api.gem);
+app.get('/api/kvminit', api.kvminit);
+app.get('/api/kvm', api.kvm);
 app.get('*', routes.index);
+
+
 
 server.broadcast = function(data, opts) {
   //console.log("Broadcasting");
@@ -275,14 +379,19 @@ server.broadcast = function(data, opts) {
 };
 
 io.sockets.on('connection', function (socket) {
+  console.log("Connection established");
+  
   socket.emit('message', screen );
+  
   //socket.on('message', function (data) {
   //  console.log('received message');
   //  console.log(data);
   //});
+  
   socket.on('disconnect', function () {
     io.sockets.emit('user disconnected');
   });
+  
 });
 
 

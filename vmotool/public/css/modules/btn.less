@@ -1,0 +1,80 @@
+.btn {
+  border: none;
+  .transition(all .2s ease);
+  &:hover {
+    border: none;
+  }
+  &:active, 
+  &.active {
+    .box-shadow(none);
+  }
+}
+.btn-spinner {
+  display: inline-block;
+  line-height: 38px;
+}
+.btn-meta {
+  height: 58px;
+  min-width: 58px;
+  .btn-value,
+  .btn-key {
+    display: block;
+  }
+  .glyphicon {
+    font-size: 20px;
+    height: @line-height-computed;
+    display: inline-block;
+  }
+}
+.btn-dark {
+  .btn-pseudo-states(#fff, @gray-darker, @gray-darker);
+}
+.btn-shy {
+  background: @btn-default-bg;
+}
+
+.btn-loading {
+  background: @gray-light;
+  color: #fff;
+  &:hover {
+    background: @gray-light;
+    color: #fff;
+  }
+}
+
+.btn-meta-profile (@background) {
+  &, &:focus {
+    color: @gray-dark;
+    background: #fff;
+  }
+  &:hover {
+    color: @gray-dark;
+    background: #fff;
+  }
+  &.btn-active {
+    color: @background;
+    background: #fff;
+    &:hover {
+      color: darken(@background, 5%);
+      background: #fff;
+    }
+  }
+  &.btn-loading {
+    color: lighten(@background, 20%);
+    background: #fff;
+    &:hover {
+      color: lighten(@background, 20%);
+      background: #fff;
+    }
+  }
+}
+
+.btn-like {
+  .btn-meta-profile(@btn-danger-bg);
+}
+.btn-bookmark {
+  .btn-meta-profile(@btn-primary-bg);
+}
+.btn-comment {
+  .btn-meta-profile(@btn-warning-bg);
+}

@@ -1,0 +1,40 @@
+.fly {
+  opacity: 0;
+  .translate(0, -10px);
+  .transition(all .35s ease);
+  &.in {
+    opacity: 1;
+    .translate(0, 0px);
+  }
+}
+
+.slide-out {
+  .transition(all .5s ease);
+  .translate(-50px, 0px);
+  opacity: 0;
+}
+
+.shortened {
+  br {
+    display: none;
+  }
+  &.off {
+    br {
+      display: inline;
+    }
+    .shortened-more,
+    .shortened-dots {
+      display: none;
+    }
+    .shortened-hidden {
+      display: inline;
+    }
+    .shortened-less {
+      display: inline;
+    }
+  }
+}
+.shortened-less,
+.shortened-hidden {
+  display: none;
+}

@@ -1,0 +1,27 @@
+.notifications {
+  .clearfix();
+  clear: both;
+  .notification {
+    border-bottom: darken(@gray-lighter, 5%) solid 1px;
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}
+.notifications-delete {
+  color: #bebebe;
+  font-weight: bold;
+  display: block;
+  margin: 10px 0;
+  text-transform: lowercase;
+  &:hover {
+    color: #fff;
+  }
+}
+.notification {
+  background: @gray-lighter;
+  padding: 10px;
+  .media-object {
+    max-width: 30px;
+  }
+}

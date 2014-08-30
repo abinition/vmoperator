@@ -6,8 +6,9 @@ body { background-color: #eee; }
   overflow: hidden;  
 }  
 .canvasWidth{width:640px!important}
-.btn-default { background-color: #000; }
+.btn-default { background-color: #fff; }
 .btn-default:hover { background-color: #aaa; }
 .white, .white a {
   color: #eee;
 }
+

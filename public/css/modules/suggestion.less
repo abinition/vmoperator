@@ -1,0 +1,48 @@
+.suggestion {
+  background: #fff;
+  border: #d9d9d9 solid 1px;
+  .display-flex();
+  margin-bottom: 10px;
+}
+
+.suggestion-meta,
+.suggestion-body {
+  padding: 10px;
+}
+
+.suggestion-meta {
+  .flex(0 0 auto);
+  .flex-order(3);
+  width: 120px;
+  > ul {
+    font-size: 0.8em;
+  }
+}
+
+.suggestion-body {
+  .flex(1 1 auto);
+  .flex-order(0);
+  overflow: hidden;
+  position: relative;
+  background: #222;
+  a,
+  p {
+    position: relative;
+    color: #fff;
+    z-index: 1;
+  }
+}
+.suggestion-body-bg {
+  position: absolute;
+  top: -50%;
+  left: 0;
+  width: 100%;
+  height: auto;
+  z-index: 0;
+  opacity: 0.5;
+}
+
+.suggestion-heading {
+  font-size: 2em;
+  line-height: 1.2em;
+}

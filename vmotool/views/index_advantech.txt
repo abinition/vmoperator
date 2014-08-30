@@ -1,0 +1,190 @@
+extends layout
+
+block content
+
+  .container
+     p(style="background-color:blue; color:white; margin-bottom: 0 !important; ;") 
+       | &nbsp; BOS CORONA / EMERALD / VANGUARD <SUPER USER> <CEV.INI>
+  .container
+     p(style="background-color:white; color:blue; margin-bottom: 0 !important; ;") 
+       | &nbsp; System
+       | &nbsp; Recipe   
+       | &nbsp; Parameter  
+       | &nbsp; Constants  
+       | &nbsp; Print/Plot
+       | &nbsp; Logging  
+       | &nbsp; Service  
+       | &nbsp; Help
+     
+  .container(ng-controller='GemController')
+    .panel.panel-default
+      .panel-heading
+        p(style="background-color:blue; color:white; margin-bottom: 0 !important; ;") Process Control Sequence for Automatic Mode
+      .panel-body
+        form.form-horizontal(role="form") 
+          .form-group
+            .row
+              .col-md-3
+                label.control-label First Step
+              .col-md-3
+                input.form-control(type="text",placeholder="1",style='font-size:14pt;')               
+        form.form-horizontal(role="form")
+          table.table.table-bordered
+            thead
+              tr
+                th
+                  | State
+                th
+                  | Step
+                th
+                  | Process Type
+                th
+                  | Periods
+                th
+                  | Set
+                th
+                  | Description
+            tbody
+              tr
+                td
+                  |  
+                td
+                  | 1		  
+                td
+                  input.form-control(type="text",placeholder="Etching")	
+                td
+                  input.form-control(type="text",placeholder="1",size="2")	
+                td
+                  input.form-control(type="text",placeholder="1",size="2")	
+                td
+                  | Etch 60 sec
+              tr
+                td
+                  |  
+                td
+                  | 2	  
+                td
+                  input.form-control(type="text",placeholder="Sputtering")	
+                td
+                  input.form-control(type="text",placeholder="1",size="2")	
+                td
+                  input.form-control(type="text",placeholder="1",size="2")	
+                td
+                  | Gap Deposition, Cath 3
+              tr
+                td
+                  |  
+                td
+                  | 3  
+                td
+                  input.form-control(type="text",placeholder="Etching")	
+                td
+                  input.form-control(type="text",placeholder="1",size="2")	
+                td
+                  input.form-control(type="text",placeholder="8",size="2")	
+                td
+                  | 400W S/E, 3 min
+              tr
+                td
+                  |  
+                td
+                  | 4		  
+                td
+                  input.form-control(type="text",placeholder="Sputtering")	
+                td
+                  input.form-control(type="text",placeholder="1",size="2")	
+                td
+                  input.form-control(type="text",placeholder="1",size="2")	
+                td
+                  | Gap Deposition, Cath 3
+              tr
+                td
+                  |  
+                td
+                  | 5		  
+                td
+                  input.form-control(type="text",placeholder="No Process")	
+                td
+                  input.form-control(type="text",placeholder="1",size="2")	
+                td
+                  input.form-control(type="text",placeholder="6",size="2")	
+                td
+                  | 
+              tr
+                td
+                  |  
+                td
+                  | 6		  
+                td
+                  input.form-control(type="text",placeholder="No Process")	
+                td
+                  input.form-control(type="text",placeholder="1",size="2")	
+                td
+                  input.form-control(type="text",placeholder="1",size="2")	
+                td
+                  | 
+              tr
+                td
+                  |  
+                td
+                  | 7		  
+                td
+                  input#etching.form-control(type="text",placeholder="Etching")	
+                td
+                  input.form-control(type="text",placeholder="1",size="2")	
+                td
+                  input.form-control(type="text",placeholder="3",size="2")	
+                td
+                  | Sputter etch, 60a nife
+              tr
+                td
+                  |  
+                td
+                  | 8		  
+                td
+                  input#etching.form-control(type="text",placeholder="Sputtering")	
+                td
+                  input.form-control(type="text",placeholder="1",size="2")	
+                td
+                  input.form-control(type="text",placeholder="18",size="2")	
+                td
+                  | <=200A Gap, 1kW, Cath 3
+              tr
+                td
+                  |  
+                td
+                  | 9		  
+                td
+                  input#etching.form-control(type="text",placeholder="No Process")	
+                td
+                  input.form-control(type="text",placeholder="1",size="2")	
+                td
+                  input.form-control(type="text",placeholder="1",size="2")	
+                td
+                  | 
+              tr
+                td
+                  |  
+                td
+                  | 10		  
+                td
+                  input.form-control(type="text",placeholder="No Process")	
+                td
+                  input.form-control(type="text",placeholder="1",size="2")	
+                td
+                  input.form-control(type="text",placeholder="1",size="2")	
+                td
+                  | 			  
+    
+block scripts
+  script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular.js')
+  script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular-route.js')
+  script(src='//code.jquery.com/jquery.js')
+  script(src='//code.jquery.com/ui/1.10.3/jquery-ui.js')
+  script(src='js/bootstrap.min.js')
+  script(src='js/app.js')
+  script(src='js/controllers.js')
+  //script(src='js/services.js')
+  //script(src='js/filters.js')
+  //script(src='js/directives.js')
+

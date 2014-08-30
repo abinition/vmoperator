@@ -1,0 +1,57 @@
+.panel {
+}
+.panel-shell,
+.panel-footer {
+  width: 100%;
+  position: fixed;
+  z-index: 2;
+  left: 0;
+}
+.panel-shell {
+  top: 0;
+}
+.panel-footer {
+  bottom: 0;
+}
+.panel-header,
+.panel-usernav {
+  position: relative;
+}
+.panel-header {
+  z-index: 4;
+}
+.panel-usernav {
+  z-index: 3;
+}
+.panel-content {
+  z-index: 1;
+  width: 100%;
+  margin: 0 auto;
+  padding: 70px 0 0;
+}
+
+.panel-auth {
+  .panel-content {
+    padding-top: 110px;
+  }
+}
+
+@media (min-width: @screen-desktop) {
+  .panel-auth {
+    .panel-content {
+      padding-top: 135px;
+    }
+  }
+}
+
+.panel-content-padded {
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+}
+
+.panel-pub {
+  .panel-content {
+    padding-top: 50px;
+  }
+}

@@ -1,0 +1,13 @@
+@pub-input-height: 150px;
+.pub-input {
+  border: @gray-lighter solid 1px;
+  height: @pub-input-height;
+}
+.pub-input-box {
+  border: none;
+  resize: none;
+  height: @pub-input-height/2;
+  &:focus {
+    .box-shadow(none);
+  }
+}

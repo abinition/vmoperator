@@ -1,0 +1,76 @@
+.btn-dark {
+  .btn-pseudo-states(#fff, #292929, #292929);
+}
+
+.btn-meta {
+  position: relative;
+  border: none;
+  border-left: darken(#f7f7f7, 20%) solid 1px;
+  background: darken(#f7f7f7, 10%);
+  color: #6d6d6d;
+  padding-bottom: 4px;
+  &:after {
+    content: "";
+    position: absolute;
+    bottom: 0px;
+    height: 4px;
+    width: 100%;
+    left: -1px;
+    padding-right: 1px;
+    display: static;
+    background: #212121;
+    color: #6d6d6d;
+  }
+  &:hover {
+    color: #6d6d6d;
+    border-left: darken(#f7f7f7, 20%) solid 1px;
+    background: darken(#f7f7f7, 5%);
+    &:after {
+      background: lighten(#212121, 10%);
+    }
+  }
+}
+.btn-generic {
+  &.btn-meta {
+    &:after {
+      background: @brand-primary;
+    }
+  }
+}
+.btn-followers,
+.btn-following,
+.btn-posts,
+.btn-topics,
+.btn-experts {
+  &.btn-meta {
+    &:after {
+      background: @brand-primary;
+    }
+    &:hover {
+    }
+    &.btn-shy {
+      &:after {
+        background: #212121;
+      }
+    }
+  }
+}
+
+.btn-like {
+  &.btn-meta {
+    &.btn-active {
+      &:after {
+        background: @brand-danger;
+      }
+    }
+  }
+}
+.btn-bookmark {
+  &.btn-meta {
+    &.btn-active {
+      &:after {
+        background: @brand-primary;
+      }
+    }
+  }
+}

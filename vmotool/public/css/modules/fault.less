@@ -1,0 +1,28 @@
+.fault {
+  background: @state-danger-bg;
+  color: @state-danger-text;
+  border: @state-danger-text solid 1px;
+  padding: 8px 15px;
+  margin-bottom: 7px;
+  position: relative;
+  display: inline-block;
+  border-radius: 3px;
+  &:before,
+  &:after {
+    position: absolute;
+    bottom: -10px;
+    left: 20px;
+    content: "";
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent;
+  }
+  &:before {
+    border-top-color: @state-danger-text;
+    bottom: -11px;
+  }
+  &:after {
+    border-top-color: @state-danger-bg;
+    bottom: -10px;
+  }
+}

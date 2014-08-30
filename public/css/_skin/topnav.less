@@ -1,0 +1,35 @@
+.topnav {
+  background: #3b3b3b;
+}
+.topnav-title {
+  text-transform: lowercase;
+}
+.topnav-nav {
+  &:before {
+    display: none;
+  }
+}
+.topnav-menu {
+  .menu-btn {
+    background: #292929;
+  }
+}
+.topnav-search-form {
+  input,
+  button {
+    border-radius: 0;
+  }
+  input {
+    .box-shadow(none);
+  }
+  button {
+    background: #fff;
+    color: @gray-darker;
+    top: 1px;
+    height: 48px;
+    &:hover {
+      color: @gray-darker;
+      background: darken(#fff, 5%);
+    }
+  }
+}

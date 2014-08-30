@@ -1,0 +1,33 @@
+.topic-editor {
+  background: @gray-dark;
+  padding: 10px;
+}
+.topic-editor-form {
+  .clearfix();
+  position: relative;
+  > input,
+  > button {
+    display: inline;
+  }
+}
+.topic-editor-input {
+  width: 100%;
+}
+.topic-editor-btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 38px;
+  width: 38px;
+  .btn-primary();
+}
+.topic-editor-list {
+  overflow-y: hidden;
+  max-height: 40px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  .topic {
+    margin-top: 10px;
+    margin-bottom: 0;
+  }
+}

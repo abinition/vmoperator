@@ -9,7 +9,7 @@ block content
         span.icon-bar
         span.icon-bar
       a.brand.navbar-brand(href='#',style='color: #fff;') VMO
-      .navbar-text AMAT Centura II System 5202
+      .navbar-text(style="font-size:14pt") Balzer  
     .collapse.navbar-collapse.navbar-responsive-collapse
       ul.nav.navbar-nav.navbar-right.navbar-inverse
        li
@@ -52,43 +52,217 @@ block content
         a(href='#tab_gem',data-toggle='tab') GEM
 
     #vmo-tabs.tab-content
-      #tab_console.tab-pane.active(ng-controller='ConsoleController')
+      #tab_console.tab-pane.active(ng-controller='ChromeController')
         .container-fluid
           .row-fluid
             .col-sm-8.canvasWidth
-              .container-fluid
+              .container-fluid#videoContainer(ng-controller='ConsoleController',ng-click='')
                 //canvas#videoCanvas(width='320',height='240')
                 //canvas#videoCanvas(width='640',height='480')
                 canvas#videoCanvas(style='border-style:solid; border-width:1px;')
-                 p
-                   | Please use a browser that supports the Canvas Element
+                  p
+                    | Please use a browser that supports the Canvas Element, like
+                    a(href="http://www.google.com/chrome") Chrome,
+                    a(href="http://www.mozilla.com/firefox/") Firefox,
+                    a(href="http://www.apple.com/safari/") Safari
+                    | or Internet Explorer 10
             .col-sm-4
               .container
                 #accordion.panel-group
                   .panel.panel-default
                     .panel-heading
                       h4.panel-title
-                        a(data-toggle='collapse',data-parent='#accordion',href='#collapse1') Sensors
+                        a(data-toggle='collapse',data-parent='#accordion',href='#collapse1') Control
                     #collapse1.panel-collapse.collapse.in
                       .panel-body
-                        ul
-                          li Current Step Number {{ step }}
-                          li Maximum Step Time {{ time }}                          
-                          li Chamber Pressure {{ chamber }} 
-                          li RF {{ rf }} 
+                        form.form-horizontal(role="form")
+                          .form-group
+                            label.col-sm-2.control-label(for='firstStep') First Step ({{ firstStep }})
+                            .col-sm-1
+                              input.input-sm.form-control#firstStep(type="text",size="1",ng-model="form.firstStep") 
+                          .form-group
+                            label.col-sm-2.control-label(for='lastStep') Last Step ({{ lastStep }})
+                            .col-sm-1
+                              input.input-sm.form-control#lastStep(type="text",size="1",ng-model="form.lastStep")                         
+                          .form-group
+                            label.col-sm-2.control-label(for='step') Step No. ({{ step }})
+                            .col-sm-1
+                              input.input-sm.form-control#step(type="text",size="1",ng-model="form.step")  
+                          button.btn.btn-default(type="submit",ng-click="submitPost()") Set
+                  .panel.panel-default
+                    .panel-heading
+                      h4.panel-title
+                        a(data-toggle='collapse',data-parent='#accordion',href='#collapse2') Recipe
+                    #collapse2.panel-collapse.collapse
+                      .panel-body
+                        form.form-horizontal(role="form")
+                          .form-group
+                            label.col-sm-2.control-label(for='firstStep') Process Type
+                            .col-sm-3
+                              input.input-sm.form-control#firstStep(type="text",size="10") 
+                          .form-group
+                            label.col-sm-2.control-label(for='lastStep') Periods
+                            .col-sm-1
+                              input.input-sm.form-control#lastStep(type="text",size="1")                         
+                          .form-group
+                            label.col-sm-2.control-label(for='step') Set
+                            .col-sm-1
+                              input.input-sm.form-control#step(type="text",size="1")
+                          button.btn.btn-default(type="submit") Set
+                              
                   .panel.panel-default
                     .panel-heading
                       h4.panel-title
                         a(data-toggle='collapse',data-parent='#accordion',href='#collapse3') Sequence
                     #collapse3.panel-collapse.collapse
                       .panel-body
-                        ul
-                          li Requested Recipe {{ name }}
-                          li LoadLock {{ loadlock }}
-                          li PPID {{ id }}
-                          li Helium Pressure {{ helium }}                          
-                          li ESC Chunking Voltage {{ voltage }} 
-                          li Expected Cathode Temp {{ temp }}                        
+                        form.form-inline(role="form")
+                          table.table-condensed.form-group(style='font-size: 8pt;')
+                            thead
+                              tr
+                                th
+                                  | State
+                                th
+                                  | Step
+                                th
+                                  | Process Type
+                                th
+                                  | Periods
+                                th
+                                  | Set
+                                th
+                                  | Description
+                            tbody
+                              tr
+                                td
+                                  |  
+                                td
+                                  | 1          
+                                td
+                                  | {{ process1 }}    
+                                td
+                                  | {{ periods1 }}    
+                                td
+                                  | {{ set1 }}
+                                td
+                                  | {{ description1 }}
+                              tr
+                                td
+                                  |  
+                                td
+                                  | 2      
+                                td
+                                  | {{ process2 }}    
+                                td
+                                  | {{ periods2 }}    
+                                td
+                                  | {{ set2 }}    
+                                td
+                                  | {{ description2 }}
+                              tr
+                                td
+                                  |  
+                                td
+                                  | 3  
+                                td
+                                  | {{ process3 }}    
+                                td
+                                  | {{ periods3 }}    
+                                td
+                                  | {{ set3 }}    
+                                td
+                                  | {{ description3 }}
+                              tr
+                                td
+                                  |  
+                                td
+                                  | 4          
+                                td
+                                  | {{ process4 }}    
+                                td
+                                  | {{ periods4 }}    
+                                td
+                                  | {{ set4 }}    
+                                td
+                                  | {{ description4 }}
+                              tr
+                                td
+                                  |  
+                                td
+                                  | 5          
+                                td
+                                  | {{ process5 }}    
+                                td
+                                  | {{ periods5 }}    
+                                td
+                                  | {{ set5 }}    
+                                td
+                                  | {{ description5 }}
+                              tr
+                                td
+                                  |  
+                                td
+                                  | 6          
+                                td
+                                  | {{ process6 }}    
+                                td
+                                  | {{ periods6 }}    
+                                td
+                                  | {{ set6 }}     
+                                td
+                                  | {{ description6 }}
+                              tr
+                                td
+                                  |  
+                                td
+                                  | 7          
+                                td
+                                  | {{ process7 }}    
+                                td
+                                  | {{ periods7 }}    
+                                td
+                                  | {{ set7 }}    
+                                td
+                                  | {{ description7 }}
+                              tr
+                                td
+                                  |  
+                                td
+                                  | 8          
+                                td
+                                  | {{ process8 }}    
+                                td
+                                  | {{ periods8 }}    
+                                td
+                                  | {{ set8 }}    
+                                td
+                                  | {{ description8 }}
+                              tr
+                                td
+                                  |  
+                                td
+                                  | 9          
+                                td
+                                  | {{ process9 }}    
+                                td
+                                  | {{ periods9 }}    
+                                td
+                                  | {{ set9 }}     
+                                td
+                                  | {{ description9 }}
+                              tr
+                                td
+                                  |  
+                                td
+                                  | 10          
+                                td
+                                  | {{ process10 }}    
+                                td
+                                  | {{ periods10 }}    
+                                td
+                                  | {{ set10 }}                           
+                                td
+                                  | {{ description10 }}
                   .panel.panel-default
                     .panel-heading
                       h4.panel-title
@@ -118,8 +292,8 @@ block content
          li Event Data
          li Recipe Management   
 
-  //.container
-  //  .ng-view
+  .container(ng-controller='IndexController')
+    .ng-view
 
 block scripts
   script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular.js')
@@ -135,13 +309,6 @@ block scripts
   //script(src='js/filters.js')
   //script(src='js/directives.js')
   script(src='/socket.io/socket.io.js',type='text/javascript')
-  //script(type='text/javascript').
-  //  //var socket = io.connect('http://108.241.35.53');
-  //  var socket = io.connect('http://192.168.11.103');
-  //  socket.on('message', function (data) {
-  //    //console.log(data);
-  //    socket.emit('message', { my: 'data' });
-  //  });
   script(type='text/javascript').
     jQuery(document).ready(function ($) {
       $('.marquee').marquee({  
@@ -164,9 +331,11 @@ block scripts
       var client ;
       if ( isMobile ) 
         client = new WebSocket( 'ws://192.168.11.103:8084/' );
-        //client = new WebSocket( 'ws://108.241.35.53:8084/' );
+        //client = new WebSocket( 'ws://vmoperator.com:8084/' );
+        //client = new WebSocket( 'ws://securebob.com/' );
       else
         client = new WebSocket( 'ws://192.168.11.103:8083/' );
-        //client = new WebSocket( 'ws://108.241.35.53:8083/' );
-      var player = new jsmpeg(client, {canvas:canvas});
+        //client = new WebSocket( 'ws://vmoperator.com:8083/' );
+        //client = new WebSocket( 'ws://beyondmetaphysical.com/' );
+        var player = new jsmpeg(client, {canvas:canvas});
     });

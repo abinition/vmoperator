@@ -1,0 +1,58 @@
+.topic {
+  background: @state-warning-bg;
+  color: @state-warning-text;
+  padding: 3px 10px 3px 5px;
+  position: relative;
+  display: inline-block;
+  margin-right: 10px;
+  margin-left: 17px;
+  line-height: 24px;
+  margin-bottom: 10px;
+  white-space: nowrap;
+  &:before {
+    position: absolute;
+    left: -30px;
+    top: 0;
+    content: "";
+    width: 0px;
+    height: 0px;
+    border: transparent solid 15px;
+    border-right-color: @state-warning-bg;
+  }
+}
+a.topic {
+  &:before {
+    border-right-color: @state-warning-bg;
+  }
+  &:hover {
+    background: darken(@state-warning-bg, 5%);
+    color: darken(@state-warning-text, 5%);
+    text-decoration: none;
+    &:before {
+      border-right-color: darken(@state-warning-bg, 5%);
+    }
+  }
+}
+.topic-edit {
+  padding-right: 30px;
+  position: relative;
+  .close {
+    position: absolute;
+    top: 4px;
+    right: 0px;
+  }
+}
+p {
+  .topic {
+    margin-bottom: 0;
+  }
+}
+.topic-inline {
+  padding: 0 5px;
+  border-radius: 3px;
+  margin: 0;
+  line-height: inherit;
+  &:before {
+    display: none;
+  }
+}

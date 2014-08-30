@@ -1,0 +1,31 @@
+.pub-upload {
+  padding: 10px;
+  border-top: @gray-light;
+  background: @gray-lighter;
+  color: @gray-darker;
+  white-space: nowrap;
+  position: relative;
+  .close {
+    position: absolute;
+    top: 12px;
+    right: 0px;
+  }
+}
+.pub-upload img.pub-media {
+  margin-right:14px;
+  width:40px;
+  height:40px;
+}
+a.pub-upload {
+  &:before {
+    border-right-color: @state-warning-bg;
+  }
+  &:hover {
+    background: darken(@state-warning-bg, 5%);
+    color: darken(@state-warning-text, 5%);
+    text-decoration: none;
+    &:before {
+      border-right-color: darken(@state-warning-bg, 5%);
+    }
+  }
+}

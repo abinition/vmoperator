@@ -1,0 +1,67 @@
+.pub {
+
+}
+.pub-controls {
+  background: #fff;
+}
+.pub-topics-collapse-btn {
+  width: auto;
+  display: block;
+  text-align: center;
+  background: #333;
+  margin: -10px;
+  padding: 10px;
+  font-size: 24px;
+  line-height: 15px;
+  color: #fff;
+  opacity: 0.5;
+  margin-bottom: 10px;
+  &:hover {
+    color: #fff;
+    opacity: 1;
+    text-decoration: none;
+  };
+}
+.pub-topics-form {
+  margin-bottom: 10px;
+  position: relative;
+  .clearfix();
+  button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 38px;
+  }
+}
+.pub-topics-list {
+  margin-bottom: -10px;
+  max-height: 150px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.pub-topics-expand {
+  display: none;
+}
+.pub-topics-expand-btn {
+  float: right;
+}
+
+.pub-topics-count {
+  float: left;
+  line-height: 36px;
+  color: darken(#fff, 40%);
+}
+
+.pub-topics-collapsed {
+  overflow: hidden;
+  position: relative;
+  .pub-topics-form,
+  .pub-topics-list,
+  .pub-topics-collapse-btn {
+    display: none;
+  }
+  .pub-topics-expand {
+    display: block;
+    .clearfix();
+  }
+}
